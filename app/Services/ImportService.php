@@ -519,7 +519,7 @@ class ImportService
      * @param string $importType
      * @return array
      */
-    private function getImportConfig(string $importType): array
+    public function getImportConfig(string $importType): array
     {
         return config("imports.$importType");
     }

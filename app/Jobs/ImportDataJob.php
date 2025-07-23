@@ -72,7 +72,7 @@ class ImportDataJob implements ShouldQueue
     {
         $absolutePath = storage_path('app/private/' . $this->filePath);
 
-        // Or we can send message if file doesn't exist.
+        // Or we can send email if file doesn't exist.
         if (!Storage::exists($this->filePath)) {
             Log::error("Import file does not exist: {$this->filePath}");
             return;

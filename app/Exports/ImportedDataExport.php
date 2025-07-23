@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use App\Services\ImportService;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -18,6 +17,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
  */
 class ImportedDataExport implements FromCollection, WithHeadings
 {
+use Illuminate\Support\Facades\App;
     protected string $importType;
     protected string $fileKey;
     protected ?string $term;
@@ -33,11 +33,10 @@ class ImportedDataExport implements FromCollection, WithHeadings
      */
     public function __construct(string $importType, string $fileKey, ?string $term = null)
     {
+        $this->importService = new ImportService();
         $this->importType = $importType;
         $this->fileKey = $fileKey;
         $this->term = $term;
-
-        $this->importService = App::make(ImportService::class);
     }
 
     /**
@@ -48,11 +47,6 @@ class ImportedDataExport implements FromCollection, WithHeadings
     public function collection(): Collection
     {
         $model = $this->importService->getDataTableModel($this->importType, $this->fileKey);
-
-        if (!$model) {
-            return collect();
-        }
-
         $query = $model->newQuery();
 
         if (!empty($this->term)) {
@@ -78,12 +72,8 @@ class ImportedDataExport implements FromCollection, WithHeadings
      */
     public function headings(): array
     {
-        $config = config("imports.{$this->importType}.files.{$this->fileKey}");
+        $headers = $this->importService->getImportHeaderConfig($this->importType, $this->fileKey);
 
-        if (!$config) {
-            abort(404, 'Import configuration not found.');
-        }
-
-        return array_keys($config['headers_to_db'] ?? []);
+        return array_keys($headers ?? []);
     }
 }

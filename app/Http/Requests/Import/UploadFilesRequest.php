@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Import;
 
+use App\Services\ImportService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
@@ -20,12 +21,7 @@ class UploadFilesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $importType = $this->input('import_type');
-        $config = config("imports.{$importType}");
-
-        if (!$config) {
-            return false;
-        }
+        $config = (new ImportService())->getImportConfig($this->input('import_type'));
 
         $permission = $config['permission_required'] ?? null;
 
@@ -48,9 +44,7 @@ class UploadFilesRequest extends FormRequest
             'files' => ['required', 'array'],
         ];
 
-        $importType = $this->input('import_type');
-        $config = config("imports.{$importType}");
-
+        $config = (new ImportService())->getImportConfig($this->input('import_type'));
         if ($config && isset($config['files'])) {
             $fileKeys = array_keys($config['files']);
 

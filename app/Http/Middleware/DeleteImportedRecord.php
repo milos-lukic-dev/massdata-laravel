@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ImportService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,23 @@ use Symfony\Component\HttpFoundation\Response;
 class DeleteImportedRecord
 {
     /**
+     * The import service instance used to retrieve import types.
+     *
+     * @var ImportService
+     */
+    protected ImportService $importService;
+
+    /**
+     * Create a new middleware instance.
+     *
+     * @param ImportService $importService
+     */
+    public function __construct(ImportService $importService)
+    {
+        $this->importService = $importService;
+    }
+
+    /**
      * Handle an incoming request.
      *
      * @param Request $request
@@ -25,14 +43,9 @@ class DeleteImportedRecord
         $user = $request->user();
         $importType = $request->route('importType');
 
-        $config = config("imports.$importType");
-        if (!$config) {
-            abort(404);
-        }
+        $config = $this->importService->getImportConfig($importType);
 
-        $permission = $config['permission_required'];
-
-        if (!$user || !$user->can($permission)) {
+        if (!$user || !$user->can($config['permission_required'])) {
             abort(403);
         }
 

@@ -117,7 +117,8 @@ Using Docker is the recommended way to run the application because it includes a
 1. Ensure PHP and MySQL are installed on your system.
 
 2. Copy the .env file (the .env.example is configured for Docker environment):
-   **Note:** The `.env` file is currently configured for Docker environment, so if you run the app locally without Docker, adjust the database and other settings accordingly.
+   
+    **Note:** The `.env` file is currently configured for Docker environment, so if you run the app locally without Docker, adjust the database and other settings accordingly.
 
     ```bash
     cp .env.example .env
