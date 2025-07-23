@@ -18,8 +18,6 @@ class ErrorLog extends Model
         'message',
         'file_row',
         'file_column',
-        'created_at',
-        'updated_at'
     ];
 
     /**

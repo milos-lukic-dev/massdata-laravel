@@ -17,7 +17,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
  */
 class ImportedDataExport implements FromCollection, WithHeadings
 {
-use Illuminate\Support\Facades\App;
     protected string $importType;
     protected string $fileKey;
     protected ?string $term;
@@ -49,10 +48,11 @@ use Illuminate\Support\Facades\App;
         $model = $this->importService->getDataTableModel($this->importType, $this->fileKey);
         $query = $model->newQuery();
 
-        if (!empty($this->term)) {
-            $query->where(function ($subQuery) use ($model) {
+        $term = trim($this->term);
+        if (strlen($term) > 2) {
+            $query->where(function ($subQuery) use ($model, $term) {
                 foreach ($model->getFillable() as $column) {
-                    $subQuery->orWhere($column, 'like', '%' . $this->term . '%');
+                    $subQuery->orWhere($column, 'like', '%' . $term . '%');
                 }
             });
         }

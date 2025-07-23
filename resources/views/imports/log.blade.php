@@ -16,7 +16,7 @@
                                 <th>File Key</th>
                                 <th>File Name</th>
                                 <th>Status</th>
-                                <th>Time</th>
+                                <th>Created At</th>
                                 <th>Logs</th>
                             </tr>
                         </thead>

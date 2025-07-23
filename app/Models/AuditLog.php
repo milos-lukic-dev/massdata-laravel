@@ -21,8 +21,6 @@ class AuditLog extends Model
         'file_column',
         'old_value',
         'new_value',
-        'created_at',
-        'updated_at',
     ];
 
     /**
