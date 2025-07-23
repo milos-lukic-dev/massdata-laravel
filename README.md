@@ -65,10 +65,20 @@ Using Docker is the recommended way to run the application because it includes a
     ```bash
     composer install
     ```
-   **Note:** If you encounter issues related to missing PHP extensions (e.g., ext-gd), you can run:
-    ```bash
-    composer install --ignore-platform-req=ext-gd
-    ```
+
+   **Note:** If you encounter issues related to missing PHP extensions, you have two options:
+
+   - Install the required PHP extension (example for PHP 8.3 on Ubuntu):
+
+       ```bash
+       sudo apt-get install php8.3-gd
+       ```
+
+   - Or run Composer ignoring the missing extension requirement:
+
+       ```bash
+       composer install --ignore-platform-req=ext-gd
+       ```
 
 6. Start the containers:
 
@@ -129,10 +139,20 @@ Using Docker is the recommended way to run the application because it includes a
     ```bash
     composer install
     ```
-   **Note:** If you encounter issues related to missing PHP extensions (e.g., ext-gd), you can run:
-    ```bash
-    composer install --ignore-platform-req=ext-gd
-    ```
+
+   **Note:** If you encounter issues related to missing PHP extensions, you have two options:
+
+   - Install the required PHP extension (example for PHP 8.3 on Ubuntu):
+
+       ```bash
+       sudo apt-get install php8.3-gd
+       ```
+
+   - Or run Composer ignoring the missing extension requirement:
+
+       ```bash
+       composer install --ignore-platform-req=ext-gd
+       ```
 
 6. Run migrations:
 
