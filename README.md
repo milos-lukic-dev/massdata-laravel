@@ -43,24 +43,19 @@ Using Docker is the recommended way to run the application because it includes a
     sudo systemctl stop mysql
     ```
 
-2. Copy the .env file:
-    ```bash
-    cp .env.example .env
-    ```
-
-3. Install npm dependencies (note: AdminLTE theme uses an older Bootstrap version, which can be ignored):
+2. Install npm dependencies (note: AdminLTE theme uses an older Bootstrap version, which can be ignored):
 
     ```bash
     npm install
     ```
 
-4. Build frontend assets (CSS/JS):
+3. Build frontend assets (CSS/JS):
 
     ```bash
     npm run build
     ```
 
-5. Install dependencies:
+4. Install dependencies:
 
     ```bash
     composer install
@@ -79,6 +74,11 @@ Using Docker is the recommended way to run the application because it includes a
        ```bash
        composer install --ignore-platform-req=ext-gd
        ```
+
+5. Copy the .env file:
+    ```bash
+    cp .env.example .env
+    ```
 
 6. Start the containers:
 
@@ -116,26 +116,19 @@ Using Docker is the recommended way to run the application because it includes a
 
 1. Ensure PHP and MySQL are installed on your system.
 
-2. Copy the .env file (the .env.example is configured for Docker environment):
-   
-    **Note:** The `.env` file is currently configured for Docker environment, so if you run the app locally without Docker, adjust the database and other settings accordingly.
-
-    ```bash
-    cp .env.example .env
-    ```
-3. Install npm dependencies (note: AdminLTE theme uses an older Bootstrap version, which can be ignored):
+2. Install npm dependencies (note: AdminLTE theme uses an older Bootstrap version, which can be ignored):
 
     ```bash
     npm install
     ```
 
-4. Build frontend assets (CSS/JS):
+3. Build frontend assets (CSS/JS):
 
     ```bash
     npm run build
     ```
 
-5. Install dependencies:
+4. Install dependencies:
 
     ```bash
     composer install
@@ -154,6 +147,14 @@ Using Docker is the recommended way to run the application because it includes a
        ```bash
        composer install --ignore-platform-req=ext-gd
        ```
+
+5. Copy the .env file (the .env.example is configured for Docker environment):
+
+   **Note:** The `.env` file is currently configured for Docker environment, so if you run the app locally without Docker, adjust the database and other settings accordingly.
+
+    ```bash
+    cp .env.example .env
+    ```
 
 6. Run migrations:
 
