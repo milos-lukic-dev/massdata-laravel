@@ -63,7 +63,11 @@ Using Docker is the recommended way to run the application because it includes a
 5. Install dependencies:
 
     ```bash
-    ./vendor/bin/sail composer install
+    composer install
+    ```
+   **Note:** If you encounter issues related to missing PHP extensions (e.g., ext-gd), you can run:
+    ```bash
+    composer install --ignore-platform-req=ext-gd
     ```
 
 6. Start the containers:
@@ -103,6 +107,7 @@ Using Docker is the recommended way to run the application because it includes a
 1. Ensure PHP and MySQL are installed on your system.
 
 2. Copy the .env file (the .env.example is configured for Docker environment):
+   **Note:** The `.env` file is currently configured for Docker environment, so if you run the app locally without Docker, adjust the database and other settings accordingly.
 
     ```bash
     cp .env.example .env
@@ -123,6 +128,10 @@ Using Docker is the recommended way to run the application because it includes a
 
     ```bash
     composer install
+    ```
+   **Note:** If you encounter issues related to missing PHP extensions (e.g., ext-gd), you can run:
+    ```bash
+    composer install --ignore-platform-req=ext-gd
     ```
 
 6. Run migrations:
