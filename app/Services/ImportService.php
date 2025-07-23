@@ -22,6 +22,8 @@ use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 /**
+ * Service for import
+ *
  * @class Import service
  */
 class ImportService
