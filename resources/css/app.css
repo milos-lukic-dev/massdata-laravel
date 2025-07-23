@@ -1,0 +1,12 @@
+@import 'jquery-ui-dist/jquery-ui.css';
+@import 'admin-lte/dist/css/adminlte.min.css';
+@import 'admin-lte/plugins/fontawesome-free/css/all.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import './componenets/notification.css';
+
+.pagination {
+    margin-bottom: 0;
+}
+.mw-1000 {
+    max-width: 1000px !important;
+}

@@ -1,0 +1,4 @@
+order_date,channel,sku,item_description,origin,so_num,cost,shipping_cost,total_price
+2025-07-01,Online,SKU12345,"Product description 1",USA,SO001,120.00,10.00,120.00
+2025-07-02,Retail,SKU67890,"Product description 2",Germany,SO002,200.00,20.00,240.00
+2025-07-03,Wholesale,SKU54321,"Product description 3",China,SO003,150.00,15.00,180.00

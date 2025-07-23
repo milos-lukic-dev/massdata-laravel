@@ -1,0 +1,88 @@
+services:
+  laravel.test:
+    build:
+      context: ./vendor/laravel/sail/runtimes/8.4
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: sail-8.4/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    ports:
+      - '${APP_PORT:-80}:80'
+      - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+    environment:
+      WWWUSER: '${WWWUSER}'
+      LARAVEL_SAIL: 1
+      XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+      XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+      IGNITION_LOCAL_SITES_PATH: '${PWD}'
+    volumes:
+      - '.:/var/www/html'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.laravel.rule=Host(`${APP_LOCAL_URL}`)'
+      - 'traefik.http.routers.laravel.entrypoints=web'
+      - 'traefik.http.services.laravel.loadbalancer.server.port=80'
+    depends_on:
+      - phpmyadmin
+      - mariadb
+
+  mariadb:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+      - "${FORWARD_DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - "sail-mariadb:/var/lib/mysql"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - 'mariadb:mariadb'
+    ports:
+      - '8082:80'
+    environment:
+      MYSQL_USERNAME: '${DB_USERNAME}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      PMA_HOST: mariadb
+      UPLOAD_LIMIT: 1024000000000MB
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.pma.rule=Host(`pma.${APP_LOCAL_URL}`)'
+      - 'traefik.http.routers.pma.entrypoints=web'
+      - 'traefik.http.services.pma.loadbalancer.server.port=80'
+
+  mailhog:
+      image: mailhog/mailhog
+      container_name: motobike-admin_mailhog
+      labels:
+          - 'traefik.enable=true'
+          - 'traefik.http.routers.mailhog.rule=Host(`mailhog.${APP_LOCAL_URL}`)'
+          - 'traefik.http.routers.mailhog.entrypoints=web'
+          - 'traefik.http.services.mailhog.loadbalancer.server.port=8025'
+
+  traefik:
+    image: traefik:v3.4
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--entrypoints.web.address=:${APP_PORT:-80}'
+    ports:
+      - '80:81'
+      - '8080:8080'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
+volumes:
+  sail-mariadb:
