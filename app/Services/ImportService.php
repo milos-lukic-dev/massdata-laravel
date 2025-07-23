@@ -206,6 +206,8 @@ class ImportService
                     ]);
 
                     // This can be also job to avoid sending multiple emails in short time
+                    // Implemented this way to send multiple emails if there are more than 500 errors.
+                    // We can also extend this to send a success email if there are no errors.
                     if (!empty($errorItems)) {
                         if (count($errorItems) > 500) {
                             foreach (array_chunk($errorItems, 500) as $chunk) {
